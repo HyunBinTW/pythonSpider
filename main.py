@@ -43,20 +43,21 @@ soup = BeautifulSoup(r.text,"html.parser")
 
 
 #配送方式
-deliveryMethod = soup.prettify();
-print(deliveryMethod)
-deliveryText = deliveryMethod.text.strip();
-print('配送方式 :' + deliveryText);
+
+deliveryText = soup.find('ul', class_='list translist').find('li').find_all('a',class_='trans')
+
+print('配送方式 : ')
+for tag in deliveryText:
+  # 輸出超連結的文字
+  print(tag.text)
+
+
 
 #商品特色
-product = soup.find('ul', id='categoryActivityInfo').find_all('li')
-productText = ''
-for tag in product:
-  # 輸出超連結的文字
-  productText = productText + tag.text
+product = soup.find('div', class_='top').find('p').find('span')
 
-print('商品特色 :' + productText);
+print('商品特色 :' + product.text);
 
 #商品照片網址
-productUrl = soup.find('div', id='goodsimg').find('a', href=True)
-print('商品照片網址 :' + productUrl.get('href'));
+productUrl = soup.find('img',class_='main-image current').get('alt')
+print('商品照片網址 :' + productUrl);
